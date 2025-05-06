@@ -45,8 +45,8 @@ def generate_animal_card(animal):
 
 def main():
     # Dateien laden
-    data_path = 'animals_data (1).json'  # Passe den Namen ggf. an
-    template_path = 'animals_template (1).html'
+    data_path = 'animals_data.json'  # Passe den Namen ggf. an
+    template_path = 'animals_template.html'
     output_path = 'animals_webpage.html'
 
     # Daten & Template lesen
