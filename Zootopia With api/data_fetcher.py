@@ -1,7 +1,12 @@
 import requests
+import os
+from dotenv import load_dotenv
 
-# ✅ Deine API-Infos (hier bitte deinen Key einsetzen!)
-API_KEY = ''
+# 🔑 .env Datei laden
+load_dotenv()
+
+# 👉 API Key holen aus der ENV
+API_KEY = os.getenv('API_KEY')
 API_URL = 'https://api.api-ninjas.com/v1/animals?name={}'
 
 
@@ -16,6 +21,10 @@ def fetch_data(animal_name):
       'characteristics': { ... }
     }
     """
+    if not API_KEY:
+        print("⚠️ API_KEY not found! Did you set it in your .env file?")
+        return []
+
     url = API_URL.format(animal_name)
     headers = {'X-Api-Key': API_KEY}
     response = requests.get(url, headers=headers)
