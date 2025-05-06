@@ -1,14 +1,5 @@
-import requests
+import data_fetcher  # ✅ das neue Modul importieren
 
-API_KEY = '6RjGMiEH2vg6v8K4t7RCjw==orUDtroNLA1eLSAs'
-API_URL = 'https://api.api-ninjas.com/v1/animals?name={}'
-
-def fetch_animals_from_api(query):
-    """Fetches animal data from the API Ninja Animals API."""
-    url = API_URL.format(query)
-    headers = {'X-Api-Key': API_KEY}
-    response = requests.get(url, headers=headers)
-    return response.json()  # returns a list
 
 def generate_animal_card(animal):
     """Generates HTML for a single animal card."""
@@ -29,27 +20,36 @@ def generate_animal_card(animal):
 
     return f'<li class="cards__item">\n' + "\n".join(parts) + '\n</li>'
 
+
 def main():
     template_path = '../Zootopia/animals_template.html'
     output_path = '../Zootopia/animals_webpage.html'
 
-    query = input("Enter a name of an animal: ").strip()
-    animals = fetch_animals_from_api(query)
+    # ✅ Tiername vom Nutzer abfragen
+    animal_name = input("Please enter an animal: ").strip()
 
+    # ✅ Daten holen aus dem neuen Modul
+    animals = data_fetcher.fetch_data(animal_name)
+
+    # Template lesen
     with open(template_path, 'r') as f:
         template_html = f.read()
 
+    # Karten bauen ODER Fehlermeldung
     if animals:
         cards_html = "\n".join([generate_animal_card(animal) for animal in animals])
     else:
-        cards_html = f'<h2>The animal "{query}" doesn\'t exist in our database.</h2>'
+        cards_html = f'<h2>The animal "{animal_name}" doesn\'t exist in our database.</h2>'
 
+    # Platzhalter ersetzen
     final_html = template_html.replace('<!-- ANIMAL_CARDS_PLACEHOLDER -->', cards_html)
 
+    # Seite schreiben
     with open(output_path, 'w') as f:
         f.write(final_html)
 
-    print(f"✅ Website was successfully generated for '{query}' and saved to {output_path}")
+    print(f"✅ Website was successfully generated for '{animal_name}' and saved to {output_path}")
+
 
 if __name__ == '__main__':
     main()
