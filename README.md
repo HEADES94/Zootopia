@@ -59,5 +59,5 @@ Submit a pull request.
 ⚠️ Notes
 Make sure your .env file is not committed (check .gitignore).
 
-This project is educational and for fun. 🦉
+This project is educational and for fun. 🦉 
 
